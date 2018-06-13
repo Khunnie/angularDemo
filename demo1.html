@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Angular</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div ng-app="myApp" ng-init="quantity=0;price=0">
+	   <p>名字 : <input type="text" ng-model="name"></p>
+	   <h1>Hello {{name}}</h1>
+	   <h1 ng-bind="name">{{name}}</h1> 绑定
+	   <h2>价格计算器</h2>
+
+		数量： <input type="number" ng-model="quantity">
+		价格： <input type="number" ng-model="price">
+
+		<p><b>总价：</b> {{ quantity * price }}</p>
+		<div ng-controller="myCtrl">
+			<input ng-model="name">
+			<h1>我的名字是 {{name}}</h1>	
+			<h2>{{myHeader}}</h2>
+			<p>选择网址</p>
+			<select ng-model="selectedSite">
+				<option ng-repeat="x in sites" value="{{x.url}}">{{x.site}}</option>
+			</select>
+			<h2>选择的是{{selectedSite}}</h2>
+			<button ng-click="count = count + 1">点我!</button>
+			<p>{{count}}</p>
+		</div>
+		<div ng-controller="formCtrl">
+			<form novalidate>
+			    First Name:<br>
+			    <input type="text" ng-model="user.firstName"><br>
+			    Last Name:<br>
+			    <input type="text" ng-model="user.lastName">
+			    <br><br>
+			    <button ng-click="reset()">RESET</button>
+			 </form>
+		    <p>form = {{user }}</p>
+		    <p>master = {{master}}</p>
+		</div>
+		
+	</div>
+	
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('myCtrl', function($scope,$timeout) {
+		    $scope.name = "John Doe";
+		    $scope.myHeader = "Fine";
+		    $scope.sites = [
+		    	{site : "Google", url : "http://www.google.com"},
+			    {site : "W3CSchool", url : "http://www.w3cschool.cn"},
+			    {site : "Taobao", url : "http://www.taobao.com"}
+		    ]
+		    $timeout(function(){
+		    	$scope.myHeader = "Yes";
+		    },2000)
+
+		})
+		app.controller('formCtrl', function($scope) {
+		    $scope.master = {firstName:"John", lastName:"Doe"};
+		    $scope.reset = function() {
+		        $scope.user = angular.copy($scope.master);
+		    };
+		    $scope.reset();
+		});
+	</script>	
+	<!-- 
+	1.最大的父级要写ng-app="" 一个页面只能有一个
+	
+	 -->
+
+	
+</body>
+</html>
